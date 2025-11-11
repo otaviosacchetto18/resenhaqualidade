@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Meu Site</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: #fffcf3;
+      font-family: Arial, sans-serif;
+    }
+
+    .navbar {
+      background: #333;
+      padding: 15px;
+      color: #fff;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .navbar a {
+      color: #fff;
+      margin-left: 15px;
+      text-decoration: none;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    .carousel {
+      width: 100%;
+      max-width: 600px;
+      margin: 30px auto;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .carousel img {
+      width: 100%;
+      display: none;
+    }
+
+    .carousel img.active {
+      display: block;
+    }
+
+    /* ✅ RODAPÉ */
+    footer {
+      background: #333;
+      color: #fff;
+      text-align: center;
+      padding: 20px 10px;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="navbar">
+    <div>T27 PUCMG</div>
+  </div>
+
+  <div class="container">
+    <h1>A Morte é um dia que vale a pena viver ...</h1>
+    <p>Porque o dia em que a morte chega</p>
+    <p>É tambem o dia em que a vida se revela</p>
+    <p>Por completo.</p> 
+    <br>
+    <p>Todos precisam de cuidado</p>
+    <p>Empatia, compaixão e limites emocionais são essenciais</p> 
+    <p>Para o equilíbrio de quem cuida.</p> 
+
+    <h2>Podcast</h2>
+    <video id="player" width="100%" controls>
+      <source src="video.mp4" type="video/mp4">
+      Seu navegador não suporta a tag de vídeo.
+    </video>
+
+    <h2>Imagens</h2>
+    <div class="carousel">
+      <img src="1.png" class="active">
+      <img src="2.png">
+      <img src="3.png">
+      <img src="4.png">
+      <img src="5.png">
+    </div>
+  </div>
+
+  <footer>
+    © 2025 PUCMG - Um site por: Otavio Sacchetto, Esther Mello, Myllena Martins, Leticia Scofield, Leonardo Roesel e Julia Resende
+  </footer>
+
+  <script>
+    const imgs = document.querySelectorAll(".carousel img");
+    let index = 0;
+
+    setInterval(() => {
+      imgs[index].classList.remove("active");
+      index = (index + 1) % imgs.length;
+      imgs[index].classList.add("active");
+    }, 5000);
+
+    const player = document.getElementById('player');
+    const status = document.getElementById('status');
+
+    player.addEventListener('error', (e) => {
+      const err = player.error;
+      console.error('Erro no player:', err);
+      let text = 'Erro ao carregar o vídeo.';
+      if (!err) text = 'Erro desconhecido ao carregar o vídeo.';
+      else {
+        switch (err.code) {
+          case 1: text = 'O download do vídeo foi interrompido (MEDIA_ERR_ABORTED).'; break;
+          case 2: text = 'Erro de rede ao tentar buscar o vídeo (MEDIA_ERR_NETWORK).'; break;
+          case 3: text = 'Formato inválido ou decodificação falhou (MEDIA_ERR_DECODE).'; break;
+          case 4: text = 'Formato não suportado (MEDIA_ERR_SRC_NOT_SUPPORTED).'; break;
+          default: text = 'Erro de reprodução desconhecido.';
+        }
+      }
+      status.style.display = 'block';
+      status.textContent = text + ' Veja console para mais detalhes.';
+    });
+
+    player.addEventListener('loadedmetadata', () => console.log('metadata carregado — duração:', player.duration));
+    player.addEventListener('canplay', () => console.log('player pode tocar o vídeo'));
+
+  </script>
+
+</body>
+
+</html>
